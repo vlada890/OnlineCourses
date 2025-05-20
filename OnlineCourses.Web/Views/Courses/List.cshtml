@@ -1,0 +1,47 @@
+@model OnlineCourses.Model.ViewModels.CourseListViewModel
+@{
+    ViewData["Title"] = "Available Courses";
+}
+
+<div class="container">
+    <h1 class="my-4">Available Courses</h1>
+
+    @if (Model.Courses.Any())
+    {
+        <div class="row">
+            @foreach (var course in Model.Courses)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">@course.Title</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Instructor: @course.Instructor</h6>
+                            <p class="card-text">@course.Description</p>
+                        </div>
+                        <div class="card-footer">
+                            <a asp-action="Details" asp-route-id="@course.Id" class="btn btn-primary">View Details</a>
+                            @if (Model.IsAuthenticated && !course.IsEnrolled)
+                            {
+                                <form asp-action="Enroll" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="CourseId" value="@course.Id" />
+                                    <button type="submit" class="btn btn-success">Enroll</button>
+                                </form>
+                            }
+                            else if (Model.IsAuthenticated && course.IsEnrolled)
+                            {
+                                <span class="badge badge-success">Enrolled</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            <p>No courses are available at this time.</p>
+        </div>
+    }
+</div>

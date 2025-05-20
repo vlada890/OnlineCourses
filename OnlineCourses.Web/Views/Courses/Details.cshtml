@@ -1,0 +1,46 @@
+@model OnlineCourses.Model.ViewModels.CourseDetailsViewModel
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container">
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>@Model.Title</h2>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Course Details</h5>
+            <dl class="row">
+                <dt class="col-sm-3">Instructor:</dt>
+                <dd class="col-sm-9">@Model.Instructor</dd>
+
+                <dt class="col-sm-3">Description:</dt>
+                <dd class="col-sm-9">@Model.Description</dd>
+            </dl>
+
+            @if (Model.IsAuthenticated && !Model.IsEnrolled)
+            {
+                <form asp-action="Enroll" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="CourseId" value="@Model.Id" />
+                    <button type="submit" class="btn btn-success">Enroll in this Course</button>
+                </form>
+            }
+            else if (Model.IsAuthenticated && Model.IsEnrolled)
+            {
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i> You are enrolled in this course!
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    <a asp-controller="Account" asp-action="Login" class="alert-link">Log in</a> to enroll in this course.
+                </div>
+            }
+        </div>
+        <div class="card-footer">
+            <a asp-action="List" class="btn btn-primary">Back to List</a>
+        </div>
+    </div>
+</div>
