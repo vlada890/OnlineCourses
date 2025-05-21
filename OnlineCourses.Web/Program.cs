@@ -89,6 +89,7 @@ using (var scope = app.Services.CreateScope())
                     Instructor = "Walter Lewin"
                 }
             );
+            context.SaveChanges();
         }
     }
     catch (Exception ex)
