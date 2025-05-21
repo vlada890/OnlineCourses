@@ -10,7 +10,7 @@
                     <h2>Register</h2>
                </div>
                <div class="card-body">
-                    <form asp-action="Register method="post">
+                    <form asp-controller="Account" asp-action="Register" method="post">
                          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                          <div class="form-group">
                               <label asp-for="FullName"></label>
