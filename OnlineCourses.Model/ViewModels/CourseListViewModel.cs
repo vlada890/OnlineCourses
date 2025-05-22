@@ -10,6 +10,7 @@ namespace OnlineCourses.Model.ViewModels
     {
         public IEnumerable<CourseDto> Courses { get; set; }
         public bool IsAuthenticated { get; set; }
+        public string SearchTerm { get; set; }
     }
 
     public class CourseDto
