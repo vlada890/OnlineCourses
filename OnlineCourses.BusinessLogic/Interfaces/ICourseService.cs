@@ -9,7 +9,7 @@ namespace OnlineCourses.BusinessLogic.Interfaces
 {
     public interface ICourseService
     {
-        Task<IEnumerable<CourseDto>> GetAllCoursesAsync(int? userId = null);
+        Task<IEnumerable<CourseDto>> GetAllCoursesAsync(int? userId = null, string searchTerm = null);
         Task<CourseDetailsViewModel> GetCourseByIdAsync(int id, int? userId = null);
         Task<bool> EnrollAsync(int userId, int courseId);
         Task<UserEnrollmentsViewModel> GetUserEnrollmentsAsync(int userId);
