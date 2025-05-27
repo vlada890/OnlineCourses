@@ -10,7 +10,7 @@
                     <h2>Register</h2>
                </div>
                <div class="card-body">
-                    <form asp-action="Register method="post">
+                    <form asp-controller="Account" asp-action="Register" method="post">
                          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                          <div class="form-group">
                               <label asp-for="FullName"></label>
@@ -32,6 +32,23 @@
                              <input asp-for="ConfirmPassword" class="form-control" />
                              <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                          </div>
+                    <div class="mb-3">
+                        <label asp-for="Role" class="form-label"></label>
+                        <select asp-for="Role" class="form-select">
+                            <option value="">-- Select Role --</option>
+                            <option value="@((int)OnlineCourses.Domain.Entities.UserRole.Student)">Student</option>
+                            <option value="@((int)OnlineCourses.Domain.Entities.UserRole.Instructor)">Instructor</option>
+                            <option value="@((int)OnlineCourses.Domain.Entities.UserRole.Admin)">Administrator</option>
+                        </select>
+                        <span asp-validation-for="Role" class="text-danger"></span>
+                        <div class="form-text">
+                            <small>
+                                <strong>Student:</strong> Can enroll in courses<br />
+                                <strong>Instructor:</strong> Can create and manage courses<br />
+                                <strong>Administrator:</strong> Can manage all courses and users
+                            </small>
+                        </div>
+                    </div>
                          <div class="form-group">
                               <button type="submit" class="btn btn-primary">Register</button>
                          </div>

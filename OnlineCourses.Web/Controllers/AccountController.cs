@@ -63,8 +63,17 @@ namespace OnlineCourses.Web.Controllers
                 HttpContext.Session.SetInt32(SessionKeys.UserId, result.User.Id);
                 HttpContext.Session.SetString(SessionKeys.UserName, result.User.FullName);
                 HttpContext.Session.SetString(SessionKeys.UserEmail, result.User.Email);
+                HttpContext.Session.SetString(SessionKeys.UserRole, result.User.Role.ToString());
 
-                return RedirectToAction("List", "Courses");
+                // Redirect based on role
+                return result.User.Role switch
+                {
+                    Domain.Entities.UserRole.Admin =>
+                        RedirectToAction("Dashboard", "Admin"),
+                    Domain.Entities.UserRole.Instructor =>
+                        RedirectToAction("Dashboard", "Instructor"),
+                    _ => RedirectToAction("List", "Courses")
+                };
             }
 
             ModelState.AddModelError("", "Invalid credentials");
@@ -82,6 +91,7 @@ namespace OnlineCourses.Web.Controllers
 
         public IActionResult AccessDenied()
         {
+            ViewBag.Message = "You don't have permission to access this resource.";
             return View();
         }
     }

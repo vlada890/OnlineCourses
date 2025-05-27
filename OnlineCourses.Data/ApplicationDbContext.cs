@@ -20,16 +20,44 @@ namespace OnlineCourses.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configure relationships
-            modelBuilder.Entity<Enrollment>()
-                .HasOne(e => e.User)
-                .WithMany(u => u.Enrollments)
-                .HasForeignKey(e => e.UserId);
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasIndex(e => e.Email).IsUnique();
+                entity.Property(e => e.Role).HasConversion<int>();
 
-            modelBuilder.Entity<Enrollment>()
-                .HasOne(e => e.Course)
-                .WithMany(c => c.Enrollments)
-                .HasForeignKey(e => e.CourseId);
+                // Configuring relationship with courses as instructor
+                entity.HasMany(u => u.CoursesCreated)
+                      .WithOne(c => c.Instructor)
+                      .HasForeignKey(c => c.InstructorId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // Configure relationships
+    modelBuilder.Entity<Course>(entity =>
+    {
+        entity.HasKey(e => e.Id);
+        entity.Property(e => e.Price).HasColumnType("decimal(18,2)");
+    });
+
+    // Configure Enrollment entity
+    modelBuilder.Entity<Enrollment>(entity =>
+    {
+        entity.HasKey(e => e.Id);
+        
+        entity.HasOne(e => e.User)
+              .WithMany(u => u.Enrollments)
+              .HasForeignKey(e => e.UserId)
+              .OnDelete(DeleteBehavior.Cascade);
+
+        entity.HasOne(e => e.Course)
+              .WithMany(c => c.Enrollments)
+              .HasForeignKey(e => e.CourseId)
+              .OnDelete(DeleteBehavior.Cascade);
+
+        // Prevent duplicate enrollments
+        entity.HasIndex(e => new { e.UserId, e.CourseId }).IsUnique();
+    });
         }
     }
 }

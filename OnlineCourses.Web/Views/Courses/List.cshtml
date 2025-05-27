@@ -5,7 +5,26 @@
 
 <div class="container">
     <h1 class="my-4">Available Courses</h1>
-
+    <!-- Search Form -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <form asp-action="List" method="get" class="form-inline">
+                <div class="input-group w-100">
+                    <input type="text" class="form-control" placeholder="Search courses..."
+                           name="searchTerm" value="@Model.SearchTerm">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6 text-right">
+            @if (!string.IsNullOrEmpty(Model.SearchTerm))
+            {
+                <a asp-action="List" class="btn btn-outline-secondary">Clear Search</a>
+            }
+        </div>
+    </div>
     @if (Model.Courses.Any())
     {
         <div class="row">

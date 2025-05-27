@@ -15,6 +15,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineCourses.BusinessLogic
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineCourses.Model", "OnlineCourses.Model\OnlineCourses.Model.csproj", "{DC7BA528-1CF9-4FA7-ABAF-785D95E0C985}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6D07C113-97D0-40B3-BDC2-C2A8B6D70998} = {6D07C113-97D0-40B3-BDC2-C2A8B6D70998}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineCourses.Helpers", "OnlineCourses.Helpers\OnlineCourses.Helpers.csproj", "{72CD40E3-33E4-4F1F-AF71-DB162CDEB86A}"
 EndProject

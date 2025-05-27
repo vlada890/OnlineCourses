@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using OnlineCourses.Domain.Entities;
 
 namespace OnlineCourses.Model.ViewModels
 {
@@ -29,5 +30,9 @@ namespace OnlineCourses.Model.ViewModels
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]
         public string ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "Please select a role")]
+        [Display(Name = "Register As")]
+        public UserRole Role { get; set; } = UserRole.Student;
     }
 }

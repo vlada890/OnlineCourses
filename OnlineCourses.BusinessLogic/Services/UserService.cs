@@ -57,10 +57,52 @@ namespace OnlineCourses.BusinessLogic.Services
 
             return (false, null);
         }
-
-        public async Task<User> GetByIdAsync(int userId)
+        public async Task<User> GetByIdAsync(int id)
         {
-            return await _repo.GetByIdAsync(userId);
+            return await _repo.GetByIdAsync(id);
+        }
+
+        public async Task<User> GetUserByEmailAsync(string email)
+        {
+            return await _repo.GetByEmailAsync(email);
+        }
+
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        {
+            return await _repo.GetAllAsync();
+        }
+
+        public async Task<IEnumerable<User>> GetUsersByRoleAsync(UserRole role)
+        {
+            return await _repo.GetByRoleAsync(role);
+        }
+
+        public async Task<ServiceResult<User>> UpdateUserAsync(User user)
+        {
+            try
+            {
+                var updatedUser = await _repo.UpdateAsync(user);
+                return ServiceResult<User>.SuccessResult(updatedUser, "User updated successfully");
+            }
+            catch (Exception ex)
+            {
+                return ServiceResult<User>.FailureResult($"Update failed: {ex.Message}");
+            }
+        }
+
+        public async Task<ServiceResult<bool>> DeleteUserAsync(int id)
+        {
+            try
+            {
+                var result = await _repo.DeleteAsync(id);
+                return result ?
+                    ServiceResult<bool>.SuccessResult(true, "User deleted successfully") :
+                    ServiceResult<bool>.FailureResult("User not found");
+            }
+            catch (Exception ex)
+            {
+                return ServiceResult<bool>.FailureResult($"Delete failed: {ex.Message}");
+            }
         }
     }
 }
