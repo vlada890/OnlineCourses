@@ -9,8 +9,12 @@ namespace OnlineCourses.Helpers
         public MappingProfile()
         {
             // Domain to DTO mappings
-            CreateMap<Course, CourseDto>();
-            CreateMap<Course, CourseDetailsViewModel>();
+        CreateMap<Course, CourseDto>()
+            .ForMember(dest => dest.Instructor, opt => opt.MapFrom(src => src.Instructor.FullName));
+        
+        CreateMap<Course, CourseDetailsViewModel>()
+            .ForMember(dest => dest.Instructor, opt => opt.MapFrom(src => src.Instructor.FullName));
+
             CreateMap<Course, CourseManagementDto>()
                 .ForMember(dest => dest.EnrollmentCount, opt => opt.MapFrom(src => src.Enrollments.Count));
         
