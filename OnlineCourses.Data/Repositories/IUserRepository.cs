@@ -13,5 +13,11 @@ namespace OnlineCourses.Data.Repositories
         Task<User> GetByEmailAsync(string email);
         Task AddAsync(User user);
         Task<bool> SaveChangesAsync();
+        Task<IEnumerable<User>> GetAllAsync();
+        Task<IEnumerable<User>> GetUsersByRoleAsync(UserRole role);
+        Task DeleteAsync(int userId);
+        Task UpdateAsync(User user);
+
+        Task<bool> EmailExistsAsync(string email);
     }
 }
