@@ -14,5 +14,7 @@ namespace OnlineCourses.Data.Repositories
         Task<IEnumerable<Enrollment>> GetUserEnrollmentsAsync(int userId);
         Task<bool> SaveChangesAsync();
         Task<IEnumerable<Enrollment>> GetCourseEnrollmentsAsync(int courseId);
+        Task<int> GetEnrollmentCountForCourseAsync(int courseId);
+
     }
 }
