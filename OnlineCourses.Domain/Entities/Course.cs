@@ -8,5 +8,7 @@ namespace OnlineCourses.Domain.Entities
         public int InstructorId { get; set; }
         public User Instructor { get; set; }
         public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
+        public int Duration { get; set; }
+        public DateTime CreatedOn { get; set; }
     }
 }
