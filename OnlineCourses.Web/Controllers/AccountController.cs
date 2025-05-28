@@ -63,8 +63,16 @@ namespace OnlineCourses.Web.Controllers
                 HttpContext.Session.SetInt32(SessionKeys.UserId, result.User.Id);
                 HttpContext.Session.SetString(SessionKeys.UserName, result.User.FullName);
                 HttpContext.Session.SetString(SessionKeys.UserEmail, result.User.Email);
+                HttpContext.Session.SetString(SessionKeys.UserRole, result.User.Role.ToString());
 
-                return RedirectToAction("List", "Courses");
+                return result.User.Role switch
+                {
+                    Domain.Entities.UserRole.Admin or Domain.Entities.UserRole.SuperAdmin =>
+                        RedirectToAction("Dashboard", "Admin"),
+                    Domain.Entities.UserRole.Instructor =>
+                        RedirectToAction("Dashboard", "Instructor"),
+                    _ => RedirectToAction("List", "Courses")
+                };
             }
 
             ModelState.AddModelError("", "Invalid credentials");
