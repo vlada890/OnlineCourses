@@ -1,0 +1,124 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-4">
+            <i class="bi bi-speedometer2"></i> Admin Dashboard
+        </h1>
+        <p class="lead">Manage users, courses, and system overview</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-primary text-white mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="h1 mb-0">@ViewBag.TotalUsers</div>
+                        <div>Total Users</div>
+                    </div>
+                    <div class="fa-3x">
+                        <i class="bi bi-people"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" asp-action="Users">View Details</a>
+                <div class="small text-white"><i class="bi bi-arrow-right"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-warning text-white mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="h1 mb-0">@ViewBag.TotalCourses</div>
+                        <div>Total Courses</div>
+                    </div>
+                    <div class="fa-3x">
+                        <i class="bi bi-book"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" asp-action="Courses">View Details</a>
+                <div class="small text-white"><i class="bi bi-arrow-right"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-success text-white mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="h1 mb-0">@ViewBag.TotalStudents</div>
+                        <div>Students</div>
+                    </div>
+                    <div class="fa-3x">
+                        <i class="bi bi-person-graduation"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" asp-action="Users">View Details</a>
+                <div class="small text-white"><i class="bi bi-arrow-right"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-danger text-white mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="h1 mb-0">@ViewBag.TotalInstructors</div>
+                        <div>Instructors</div>
+                    </div>
+                    <div class="fa-3x">
+                        <i class="bi bi-mortarboard"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" asp-action="Users">View Details</a>
+                <div class="small text-white"><i class="bi bi-arrow-right"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <a class="btn btn-primary btn-block mb-2" asp-action="CreateCourse">
+                            <i class="bi bi-plus-circle"></i> Create New Course
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a class="btn btn-info btn-block mb-2" asp-action="Users">
+                            <i class="bi bi-people"></i> Manage Users
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a class="btn btn-success btn-block mb-2" asp-action="Courses">
+                            <i class="bi bi-book"></i> Manage Courses
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
