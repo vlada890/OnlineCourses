@@ -171,5 +171,36 @@ namespace OnlineCourses.BusinessLogic.Services
             var enrollments = await _enrollmentRepo.GetCourseEnrollmentsAsync(courseId);
             return _mapper.Map<IEnumerable<EnrollmentDetailsViewModel>>(enrollments);
         }
+        public async Task<ServiceResult<List<CourseAdminViewModel>>> GetAllCoursesForAdminAsync()
+        {
+            try
+            {
+                var courses = await _courseRepo.GetAllAsync();
+        
+                // Project to view model (enrollment count etc.)
+                var courseViewModels = new List<CourseAdminViewModel>();
+        
+                foreach (var course in courses)
+                {
+                    var enrollmentCount = await _enrollmentRepo.GetEnrollmentCountForCourseAsync(course.Id); // You need this repo method
+                    courseViewModels.Add(new CourseAdminViewModel
+                    {
+                        Id = course.Id,
+                        Title = course.Title,
+                        Description = course.Description,
+                        Duration = course.Duration,
+                        CreatedDate = course.CreatedOn,
+                        EnrollmentCount = enrollmentCount
+                    });
+                }
+        
+                return ServiceResult<List<CourseAdminViewModel>>.SuccessResult(courseViewModels);
+            }
+            catch (Exception ex)
+            {
+                return ServiceResult<List<CourseAdminViewModel>>.FailureResult($"Error retrieving admin courses: {ex.Message}");
+            }
+        }
+
     }
 }
