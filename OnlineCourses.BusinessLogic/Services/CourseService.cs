@@ -23,17 +23,17 @@ namespace OnlineCourses.BusinessLogic.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<CourseDto>> GetAllCoursesAsync(int? userId = null, string searchTerm = null)
+        public async Task<IEnumerable<CourseDto>> GetAllCoursesAsync(int? userId = null)//, string searchTerm = null)
         {
             var courses = await _courseRepo.GetAllAsync();
-            if (!string.IsNullOrWhiteSpace(searchTerm))
+            /*if (!string.IsNullOrWhiteSpace(searchTerm))
             {
             searchTerm = searchTerm.Trim().ToLower();
             courses = courses.Where(c => 
                 c.Title.ToLower().Contains(searchTerm) || 
                 c.Description.ToLower().Contains(searchTerm) || 
                 c.Instructor.ToLower().Contains(searchTerm));
-            }
+            }*/
             var courseDtos = _mapper.Map<IEnumerable<CourseDto>>(courses);
 
             if (userId.HasValue)
@@ -91,6 +91,85 @@ namespace OnlineCourses.BusinessLogic.Services
             {
                 Enrollments = enrollmentDtos
             };
+        }
+        public async Task<ServiceResult<Course>> CreateCourseAsync(CreateCourseViewModel model)
+        {
+            try
+            {
+                var course = _mapper.Map<Course>(model);
+                await _courseRepo.AddAsync(course);
+                var success = await _courseRepo.SaveChangesAsync();
+        
+                if (!success)
+                    return ServiceResult<Course>.FailureResult("Failed to create course");
+        
+                return ServiceResult<Course>.SuccessResult(course, "Course created successfully");
+            }
+            catch (Exception ex)
+            {
+                return ServiceResult<Course>.FailureResult($"Error creating course: {ex.Message}");
+            }
+        }
+        public async Task<ServiceResult<bool>> DeleteCourseAsync(int id)
+        {
+            try
+            {
+                var course = await _courseRepo.GetByIdAsync(id);
+                if (course == null)
+                    return ServiceResult<bool>.FailureResult("Course not found");
+        
+                await _courseRepo.DeleteAsync(id);
+                var success = await _courseRepo.SaveChangesAsync();
+        
+                if (!success)
+                    return ServiceResult<bool>.FailureResult("Failed to delete course");
+        
+                return ServiceResult<bool>.SuccessResult(true, "Course deleted successfully");
+            }
+            catch (Exception ex)
+            {
+                return ServiceResult<bool>.FailureResult($"Error deleting course: {ex.Message}");
+            }
+        }
+        public async Task<ServiceResult<List<Course>>> GetCoursesByInstructorAsync(int instructorId)
+        {
+            try
+            {
+                var courses = await _courseRepo.GetCoursesByInstructorAsync(instructorId);
+                return ServiceResult<List<Course>>.SuccessResult(courses.ToList(), "Courses retrieved successfully");
+            }
+            catch (Exception ex)
+            {
+                return ServiceResult<List<Course>>.FailureResult($"Error retrieving instructor courses: {ex.Message}");
+            }
+        }
+        public async Task<ServiceResult<Course>> UpdateCourseAsync(int id, CreateCourseViewModel model)
+        {
+            try
+            {
+                var course = await _courseRepo.GetByIdAsync(id);
+                if (course == null)
+                    return ServiceResult<Course>.FailureResult("Course not found");
+        
+                _mapper.Map(model, course); // Update course with new values
+        
+                _courseRepo.Update(course); // Assuming Update method exists
+                var success = await _courseRepo.SaveChangesAsync();
+        
+                if (!success)
+                    return ServiceResult<Course>.FailureResult("Failed to update course");
+        
+                return ServiceResult<Course>.SuccessResult(course, "Course updated successfully");
+            }
+            catch (Exception ex)
+            {
+                return ServiceResult<Course>.FailureResult($"Error updating course: {ex.Message}");
+            }
+        }
+        public async Task<IEnumerable<EnrollmentDetailsViewModel>> GetCourseEnrollmentsAsync(int courseId)
+        {
+            var enrollments = await _enrollmentRepo.GetCourseEnrollmentsAsync(courseId);
+            return _mapper.Map<IEnumerable<EnrollmentDetailsViewModel>>(enrollments);
         }
     }
 }
