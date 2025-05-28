@@ -29,5 +29,10 @@ namespace OnlineCourses.Model.ViewModels
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]
         public string ConfirmPassword { get; set; }
+
+        public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Role")]
+        public UserRole Role { get; set; } = UserRole.Student;
     }
 }
