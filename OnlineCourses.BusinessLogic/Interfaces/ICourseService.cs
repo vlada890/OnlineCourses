@@ -19,5 +19,7 @@ namespace OnlineCourses.BusinessLogic.Interfaces
         Task<ServiceResult<List<Course>>> GetCoursesByInstructorAsync(int instructorId);
         Task<ServiceResult<Course>> UpdateCourseAsync(int id, CreateCourseViewModel model);
         Task<IEnumerable<EnrollmentDetailsViewModel>> GetCourseEnrollmentsAsync(int courseId);
+        Task<ServiceResult<List<CourseAdminViewModel>>> GetAllCoursesForAdminAsync();
+
     }
 }
