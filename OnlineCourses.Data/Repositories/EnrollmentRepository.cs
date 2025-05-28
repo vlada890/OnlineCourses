@@ -39,6 +39,11 @@ namespace OnlineCourses.Data.Repositories
                 .Include(e => e.User)
                 .ToListAsync();
         }
+        public async Task<int> GetEnrollmentCountForCourseAsync(int courseId)
+        {
+            return await _context.Enrollments.CountAsync(e => e.CourseId == courseId);
+        }
+
 
     }
 }
