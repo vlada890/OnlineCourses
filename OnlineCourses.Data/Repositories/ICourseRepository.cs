@@ -12,6 +12,10 @@ namespace OnlineCourses.Data.Repositories
         Task<IEnumerable<Course>> GetAllAsync();
         Task<Course> GetByIdAsync(int id);
         Task<bool> SaveChangesAsync();
+        Task AddAsync(Course course);
+        Task DeleteAsync(int courseId);
+        Task<IEnumerable<Course>> GetCoursesByInstructorAsync(int instructor);
+        Task Update(Course course);
 
     }
 }
