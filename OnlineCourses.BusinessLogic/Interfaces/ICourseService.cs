@@ -13,5 +13,11 @@ namespace OnlineCourses.BusinessLogic.Interfaces
         Task<CourseDetailsViewModel> GetCourseByIdAsync(int id, int? userId = null);
         Task<bool> EnrollAsync(int userId, int courseId);
         Task<UserEnrollmentsViewModel> GetUserEnrollmentsAsync(int userId);
+                // =====New methods for the admin functionality using service result
+        Task<ServiceResult<Course>> CreateCourseAsync(CreateCourseViewModel model);
+        Task<ServiceResult<bool>> DeleteCourseAsync(int id);
+        Task<ServiceResult<List<Course>>> GetCoursesByInstructorAsync(int instructorId);
+        Task<ServiceResult<Course>> UpdateCourseAsync(int id, CreateCourseViewModel model);
+        Task<IEnumerable<EnrollmentDetailsViewModel>> GetCourseEnrollmentsAsync(int courseId);
     }
 }
