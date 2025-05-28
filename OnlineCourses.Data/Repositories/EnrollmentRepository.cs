@@ -32,6 +32,13 @@ namespace OnlineCourses.Data.Repositories
         {
             return await _ctx.SaveChangesAsync() > 0;
         }
+                public async Task<IEnumerable<Enrollment>> GetCourseEnrollmentsAsync(int courseId)
+        {
+            return await _ctx.Enrollments
+                .Where(e => e.CourseId == courseId)
+                .Include(e => e.User)
+                .ToListAsync();
+        }
 
     }
 }
