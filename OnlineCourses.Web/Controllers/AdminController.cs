@@ -22,6 +22,18 @@ namespace OnlineCourses.Web.Controllers
             ViewBag.Message = "Welcome to Admin Dashboard";
             return View();
         }
+        public async Task<IActionResult> Courses()
+        {
+            var result = await _courseService.GetAllCoursesForAdminAsync();
+
+            if (!result.Success)
+            {
+                ModelState.AddModelError("", result.Message);
+                return View(new List<CourseAdminViewModel>());
+            }
+
+            return View(result.Data); // This must be List<CourseAdminViewModel>
+        }
 
         public async Task<IActionResult> Users()
         {
