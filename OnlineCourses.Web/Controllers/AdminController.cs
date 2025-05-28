@@ -26,7 +26,7 @@ namespace OnlineCourses.Web.Controllers
         public async Task<IActionResult> Users()
         {
             var users = await _userService.GetAllUsersAsync();
-            return View(users);
+            return View(users.Data);
         }
 
         [HttpGet]
