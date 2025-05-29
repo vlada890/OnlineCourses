@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace OnlineCourses.Domain.Entities
 {
     public class User
