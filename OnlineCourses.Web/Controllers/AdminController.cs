@@ -87,5 +87,21 @@ namespace OnlineCourses.Web.Controllers
 
             return RedirectToAction("ManageCourses");
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteCourse(int id)
+        {
+            var result = await _courseService.DeleteCourseAsync(id);
+            if (result.Success)
+            {
+                TempData["SuccessMessage"] = "Course deleted successfully!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = result.Message;
+            }
+
+            return RedirectToAction("ManageCourses");
+        }
     }
 }
