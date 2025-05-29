@@ -65,32 +65,54 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<ApplicationDbContext>();
-        context.Database.EnsureCreated();
+        context.Database.Migrate();
+        var instructors = new List<User>
+{
+    new User { FullName = "John Smith", Email = "john.smith@example.com", PasswordHash = "123", Role = UserRole.Instructor },
+    new User { FullName = "David Jerison", Email = "david.jerison@example.com", PasswordHash = "123", Role = UserRole.Instructor },
+    new User { FullName = "Walter Lewin", Email = "walter@example.com", PasswordHash = "123", Role = UserRole.Instructor }
+};
+
+        // Only add if not exists
+        foreach (var instructor in instructors)
+        {
+            if (!context.Users.Any(u => u.Email == instructor.Email))
+            {
+                context.Users.Add(instructor);
+            }
+        }
+        context.SaveChanges(); // Needed to get Ids for new users
+
+        // Now retrieve the instructors with their IDs populated
+        var arthur = context.Users.First(u => u.Email == "arthur.mattuck@example.com");
+        var dave = context.Users.First(u => u.Email == "david.jerison@example.com");
+        var walter = context.Users.First(u => u.Email == "walter@example.com");
 
         if (!context.Courses.Any())
         {
             context.Courses.AddRange(
                 new Course
                 {
-                    Title = "Introduction to C",
-                    Description = "Learn the basics of C programming language:syntax,data types and control structures.",
-                    Instructor = "John Smith"
+                    Title = "Differential Equations",
+                    Description = "Model systems using ODEs",
+                    InstructorId = arthur.Id
                 },
                 new Course
                 {
-                    Title = "Calculus",
-                    Description = "Learn the basics of calculus:differentiation,integrals and series.",
-                    Instructor = "David Jerison"
+                    Title = "Calculus 1",
+                    Description = "Intro into calculus topics",
+                    InstructorId = dave.Id
                 },
                 new Course
                 {
-                    Title = "Mechanics1",
-                    Description = "Learn about conservation of energy,thermodynamics and some quantum mechanics.",
-                    Instructor = "Walter Lewin"
+                    Title = "Classical Mechanics",
+                    Description = "Learn about the surrounding world.Build intuition with real-life examples.",
+                    InstructorId = walter.Id
                 }
             );
             context.SaveChanges();
         }
+    
     }
     catch (Exception ex)
     {
