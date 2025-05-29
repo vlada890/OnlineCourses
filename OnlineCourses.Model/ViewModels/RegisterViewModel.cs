@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OnlineCourses.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace OnlineCourses.Model.ViewModels
