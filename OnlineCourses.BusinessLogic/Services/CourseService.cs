@@ -183,7 +183,7 @@ namespace OnlineCourses.BusinessLogic.Services
         
                 foreach (var course in courses)
                 {
-                    var enrollmentCount = await _enrollmentRepo.GetEnrollmentCountForCourseAsync(course.Id); // You need this repo method
+                    var enrollmentCount = await _enrollmentRepo.GetEnrollmentCountForCourseAsync(course.Id); //  this is a repo method
                     courseViewModels.Add(new CourseAdminViewModel
                     {
                         Id = course.Id,
