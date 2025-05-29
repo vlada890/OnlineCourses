@@ -2,6 +2,7 @@ using AutoMapper;
 using OnlineCourses.BusinessLogic.Interfaces;
 using OnlineCourses.Data.Repositories;
 using OnlineCourses.Domain.Entities;
+using OnlineCourses.Model.Common;
 using OnlineCourses.Model.ViewModels;
 
 namespace OnlineCourses.BusinessLogic.Services
