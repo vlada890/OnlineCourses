@@ -10,11 +10,13 @@ namespace OnlineCourses.Web.Controllers
     {
         private readonly IUserService _userService;
         private readonly ICourseService _courseService;
+        private readonly ApplicationDbContext _context;
 
-        public AdminController(IUserService userService, ICourseService courseService)
+        public AdminController(IUserService userService, ICourseService courseService, ApplicationDbContext context)
         {
             _userService = userService;
             _courseService = courseService;
+            _context = context;
         }
 
         public IActionResult Dashboard()
@@ -91,6 +93,43 @@ namespace OnlineCourses.Web.Controllers
         public async Task<IActionResult> DeleteUser(int id)
         {
             await _userService.DeleteUserAsync(id); 
+            return RedirectToAction("Users");
+        }
+                [HttpGet]
+        public IActionResult EditUser(int id)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            if (user == null)
+                return NotFound();
+
+            var model = new EditUserViewModel
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email,
+                Role = user.Role,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditUser(EditUserViewModel updatedUser)
+        {
+            if (!ModelState.IsValid)
+                return View(updatedUser);
+    
+            var user = _context.Users.FirstOrDefault(u => u.Id == updatedUser.Id);
+            if (user == null)
+                return NotFound();
+    
+                user.Role = updatedUser.Role;
+                user.Email = updatedUser.Email;
+                user.FullName = updatedUser.FullName;
+    
+            _context.SaveChanges();
+    
             return RedirectToAction("Users");
         }
 
