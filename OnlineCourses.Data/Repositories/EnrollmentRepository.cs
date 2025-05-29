@@ -41,7 +41,7 @@ namespace OnlineCourses.Data.Repositories
         }
         public async Task<int> GetEnrollmentCountForCourseAsync(int courseId)
         {
-            return await _context.Enrollments.CountAsync(e => e.CourseId == courseId);
+            return await _ctx.Enrollments.CountAsync(e => e.CourseId == courseId);
         }
 
 
