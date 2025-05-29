@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineCourses.BusinessLogic.Interfaces;
 using OnlineCourses.Web.Filters;
 using OnlineCourses.Model.ViewModels;
+using OnlineCourses.Data;
 
 namespace OnlineCourses.Web.Controllers
 {
