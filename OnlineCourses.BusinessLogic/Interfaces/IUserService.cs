@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OnlineCourses.Model.Common;
 using OnlineCourses.Domain.Entities;
 using OnlineCourses.Model.ViewModels;
 
