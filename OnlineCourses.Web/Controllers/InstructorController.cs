@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineCourses.BusinessLogic.Interfaces;
 using OnlineCourses.Web.Filters;
 using OnlineCourses.Web.Constants;
+using OnlineCourses.Model.ViewModels;
 
 namespace OnlineCourses.Web.Controllers
 {
@@ -25,7 +26,16 @@ namespace OnlineCourses.Web.Controllers
         {
             var userId = HttpContext.Session.GetInt32(SessionKeys.UserId).Value;
             var courses = await _courseService.GetCoursesByInstructorAsync(userId);
-            return View(courses);
+
+            if (serviceResult.Success)
+            {
+                return View(serviceResult.Data); 
+            }
+            else
+            {
+                TempData["ErrorMessage"] = serviceResult.Message;
+                return View(new List<Course>());
+            }
         }
 
         [RequireRole(Domain.Entities.UserRole.Instructor)] // Only instructors can create courses
