@@ -33,7 +33,30 @@ namespace OnlineCourses.Web.Controllers
         {
             return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateCourse(CreateCourseViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = HttpContext.Session.GetInt32(SessionKeys.UserId).Value;
+                viewModel.InstructorId = userId;
 
+                var result = await _courseService.CreateCourseAsync(viewModel);
+
+                if (result.Success)
+                {
+                    TempData["SuccessMessage"] = "Course created successfully!";
+                    return RedirectToAction("MyCourses");
+                }
+                else
+                {
+                    ModelState.AddModelError("", result.Message);
+                }
+            }
+
+            return View(viewModel);
+        }
         // Specific action restricted to Admin only within Instructor controller
         [AdminMod]
         public async Task<IActionResult> ManageAllCourses()
