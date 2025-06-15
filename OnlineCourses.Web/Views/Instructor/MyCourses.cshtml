@@ -1,9 +1,8 @@
-@model List<OnlineCourses.Domain.Entities.Course>
+@model OnlineCourses.Model.Common.ServiceResult<List<OnlineCourses.Domain.Entities.Course>>
 @{
     ViewData["Title"] = "My Courses";
     Layout = "~/Views/Shared/_InstructorLayout.cshtml";
 }
-
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1><i class="bi bi-book"></i> My Courses</h1>
     <a asp-action="CreateCourse" class="btn btn-primary">
@@ -11,10 +10,10 @@
     </a>
 </div>
 
-@if (Model.Any())
+@if (Model.Data.Any())
 {
     <div class="row">
-        @foreach (var course in Model)
+        @foreach (var course in Model.Data)
         {
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card h-100">
