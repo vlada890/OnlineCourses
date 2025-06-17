@@ -29,8 +29,16 @@ namespace OnlineCourses.Helpers
             CreateMap<RegisterViewModel, User>()
                 .ForMember(dest => dest.PasswordHash, opt => opt.Ignore())
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow)) ;
-        
-            CreateMap<CreateCourseViewModel, Course>();
+
+            CreateMap<CreateCourseViewModel, Course>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedOn, opt => opt.MapFrom(src => DateTime.Now))
+                .ForMember(dest => dest.Instructor, opt => opt.Ignore())
+                .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => src.Duration))
+                .ForMember(dest => dest.Enrollments, opt => opt.Ignore());
+
+            CreateMap<Course, CreateCourseViewModel>()
+                .ForMember(dest => dest.InstructorName, opt => opt.MapFrom(src => src.Instructor.FullName));
             CreateMap<EditCourseViewModel, Course>();
         
             // Domain to ViewModel mappings
@@ -42,7 +50,7 @@ namespace OnlineCourses.Helpers
             CreateMap<Course, EditCourseViewModel>();
             CreateMap<Course, CourseAdminViewModel>()
             .ForMember(dest => dest.EnrollmentCount, opt => opt.MapFrom(src => src.Enrollments.Count))
-            .ForMember(dest => dest.Duration, opt => opt.Ignore())    // since Course doesn't have Duration
+            .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => src.Duration))
             .ForMember(dest => dest.CreatedDate, opt => opt.Ignore());
         }
     }

@@ -27,14 +27,7 @@ namespace OnlineCourses.BusinessLogic.Services
         public async Task<IEnumerable<CourseDto>> GetAllCoursesAsync(int? userId = null)//, string searchTerm = null)
         {
             var courses = await _courseRepo.GetAllAsync();
-            /*if (!string.IsNullOrWhiteSpace(searchTerm))
-            {
-            searchTerm = searchTerm.Trim().ToLower();
-            courses = courses.Where(c => 
-                c.Title.ToLower().Contains(searchTerm) || 
-                c.Description.ToLower().Contains(searchTerm) || 
-                c.Instructor.ToLower().Contains(searchTerm));
-            }*/
+
             var courseDtos = _mapper.Map<IEnumerable<CourseDto>>(courses);
 
             if (userId.HasValue)

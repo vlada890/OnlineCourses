@@ -1,0 +1,62 @@
+@model OnlineCourses.Model.ViewModels.EditCourseViewModel
+@{
+    ViewData["Title"] = "Edit Course";
+    Layout = "~/Views/Shared/_InstructorLayout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="bi bi-pencil-square"></i> Edit Course</h3>
+            </div>
+            <div class="card-body">
+                @if (Model.EnrollmentCount > 0)
+                {
+                    <div class="alert alert-info mb-3">
+                        <i class="bi bi-info-circle"></i>
+                        This course has <strong>@Model.EnrollmentCount</strong> enrolled student(s).
+                    </div>
+                }
+
+                <form asp-controller="Instructor" asp-action="EditCourse" method="post">
+
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label">Course Title</label>
+                        <input asp-for="Title" class="form-control" placeholder="Enter course title" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label">Description</label>
+                        <textarea asp-for="Description" class="form-control" rows="4"
+                                  placeholder="Describe what students will learn in this course"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Duration" class="form-label">Duration (hours)</label>
+                        <input asp-for="Duration" type="number" class="form-control"
+                               placeholder="Course duration in hours" min="1" />
+                        <span asp-validation-for="Duration" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="MyCourses" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Back to My Courses
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> Update Course
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

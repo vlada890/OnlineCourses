@@ -15,7 +15,9 @@ namespace OnlineCourses.Data.Repositories
         public CourseRepository(ApplicationDbContext ctx) => _ctx = ctx;
 
         public async Task<IEnumerable<Course>> GetAllAsync() =>
-            await _ctx.Courses.ToListAsync();
+            await _ctx.Courses
+            .Include(c => c.Instructor)
+            .ToListAsync();
 
         public async Task<Course> GetByIdAsync(int id) =>
             await _ctx.Courses.FindAsync(id);
@@ -42,9 +44,14 @@ namespace OnlineCourses.Data.Repositories
                 .Where(c => c.InstructorId == instructorId)
                 .ToListAsync();
         }
-        public async Task Update(Course course)
+        public void Update(Course course)
         {
             _ctx.Courses.Update(course);
+        }
+        public async Task<int> GetEnrollmentCountForCourseAsync(int courseId)
+        {
+            return await _ctx.Enrollments
+                .CountAsync(e => e.CourseId == courseId);
         }
     }
 }

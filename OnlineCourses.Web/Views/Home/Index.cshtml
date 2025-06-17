@@ -2,10 +2,79 @@
     ViewData["Title"] = "Welcome";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to Online Courses</h1>
-    <p class="lead">Explore our extensive catalog of courses.</p>
-    <div class="mt-4">
-         <a asp-controller="Courses" asp-action="List" class="btn btn-primary">Browse Courses</a>
+<!-- Hero Section -->
+<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; margin: -15px -15px 40px -15px; text-align: center;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h1 style="font-size: 3.5rem; font-weight: 700; margin-bottom: 1.5rem;">Welcome to Online Courses</h1>
+                <p style="font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.9;">Unlock your potential with our comprehensive learning platform. Join thousands of students mastering new skills every day.</p>
+                <a asp-controller="Courses" asp-action="List" class="btn btn-light btn-lg" style="padding: 15px 40px; font-weight: 600; border-radius: 50px;">Start Learning Today</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div style="padding: 60px 0;">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="display-5 font-weight-bold mb-3">Why Choose Our Platform?</h2>
+                <p class="lead text-muted">Discover the benefits that make learning with us exceptional</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100" style="border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.1); border-radius: 15px; padding: 20px;">
+                    <div class="card-body text-center">
+                        <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white;">
+                            📚
+                        </div>
+                        <h5 class="card-title" style="font-size: 1.5rem; font-weight: 600; margin-bottom: 15px;">Expert-Led Courses</h5>
+                        <p class="card-text text-muted">Learn from industry professionals with years of real-world experience in their fields.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100" style="border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.1); border-radius: 15px; padding: 20px;">
+                    <div class="card-body text-center">
+                        <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white;">
+                            🎯
+                        </div>
+                        <h5 class="card-title" style="font-size: 1.5rem; font-weight: 600; margin-bottom: 15px;">Flexible Learning</h5>
+                        <p class="card-text text-muted">Study at your own pace with lifetime access to course materials and mobile-friendly content.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100" style="border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.1); border-radius: 15px; padding: 20px;">
+                    <div class="card-body text-center">
+                        <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white;">
+                            🏆
+                        </div>
+                        <h5 class="card-title" style="font-size: 1.5rem; font-weight: 600; margin-bottom: 15px;">Certificates</h5>
+                        <p class="card-text text-muted">Earn recognized certificates upon completion to showcase your new skills to employers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div style="background: linear-gradient(135deg, #764ba2 0%, #667eea 100%); color: white; padding: 80px 0; margin: 60px -15px -15px -15px; text-align: center;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="display-5 font-weight-bold mb-4">Ready to Transform Your Career?</h2>
+                <p class="lead mb-4">Join our community of learners and take the first step towards your goals.</p>
+                <a asp-controller="Courses" asp-action="List" class="btn btn-light btn-lg mr-3" style="padding: 15px 40px; font-weight: 600; border-radius: 50px;">Browse All Courses</a>
+                @if (!Context.Session.GetInt32("UserId").HasValue)
+                {
+                    <a asp-controller="Account" asp-action="Register" class="btn btn-outline-light btn-lg" style="padding: 15px 40px; font-weight: 600; border-radius: 50px;">Get Started Free</a>
+                }
+            </div>
+        </div>
     </div>
 </div>

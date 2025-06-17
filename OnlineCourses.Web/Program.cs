@@ -65,17 +65,19 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<ApplicationDbContext>();
+        var passwordHasher = services.GetRequiredService<IPasswordHasher<User>>();
         context.Database.Migrate();
         var instructors = new List<User>
 {
-    new User { FullName = "John Smith", Email = "john.smith@example.com", PasswordHash = "123", Role = UserRole.Instructor },
-    new User { FullName = "David Jerison", Email = "david.jerison@example.com", PasswordHash = "123", Role = UserRole.Instructor },
-    new User { FullName = "Walter Lewin", Email = "walter@example.com", PasswordHash = "123", Role = UserRole.Instructor }
+    new User { FullName = "Arthur Mattuck", Email = "arthur.mattuck@example.com", Role = UserRole.Instructor },
+    new User { FullName = "David Jerison", Email = "david.jerison@example.com",Role = UserRole.Instructor },
+    new User { FullName = "Walter Lewin", Email = "walter@example.com",  Role = UserRole.Instructor }
 };
 
-        // Only add if not exists
         foreach (var instructor in instructors)
         {
+            instructor.PasswordHash = passwordHasher.HashPassword(instructor, "TempPassword123!");
+
             if (!context.Users.Any(u => u.Email == instructor.Email))
             {
                 context.Users.Add(instructor);
@@ -95,19 +97,25 @@ using (var scope = app.Services.CreateScope())
                 {
                     Title = "Differential Equations",
                     Description = "Model systems using ODEs",
-                    InstructorId = arthur.Id
+                    InstructorId = arthur.Id,
+                    Duration = 40,
+                    CreatedOn = DateTime.Now
                 },
                 new Course
                 {
                     Title = "Calculus 1",
                     Description = "Intro into calculus topics",
-                    InstructorId = dave.Id
+                    InstructorId = dave.Id,
+                    Duration = 60,
+                    CreatedOn = DateTime.Now
                 },
                 new Course
                 {
                     Title = "Classical Mechanics",
                     Description = "Learn about the surrounding world.Build intuition with real-life examples.",
-                    InstructorId = walter.Id
+                    InstructorId = walter.Id,
+                    Duration = 80,
+                    CreatedOn = DateTime.Now
                 }
             );
             context.SaveChanges();

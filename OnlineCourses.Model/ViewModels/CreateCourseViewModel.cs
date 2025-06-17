@@ -19,10 +19,9 @@ namespace OnlineCourses.Model.ViewModels
         [Display(Name = "Duration (Hours)")]
         public int Duration { get; set; }
 
-        [Required(ErrorMessage = "Instructor is required")]
         [Display(Name = "Instructor")]
         public int InstructorId { get; set; } // The actual selected user ID
 
-        public string InstructorName { get; set; } // Optional
+        public string? InstructorName { get; set; } // Optional
     }
 }

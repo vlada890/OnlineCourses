@@ -15,7 +15,8 @@ namespace OnlineCourses.Data.Repositories
         Task AddAsync(Course course);
         Task DeleteAsync(int courseId);
         Task<IEnumerable<Course>> GetCoursesByInstructorAsync(int instructor);
-        Task Update(Course course);
+        void Update(Course course);
+        Task<int> GetEnrollmentCountForCourseAsync(int courseId);
 
     }
 }

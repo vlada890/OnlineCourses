@@ -25,6 +25,19 @@ namespace OnlineCourses.Data
                 entity.HasIndex(e => e.Email).IsUnique();
                 entity.Property(e => e.Role).HasConversion<int>();
             });
+            modelBuilder.Entity<Course>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.Description).IsRequired().HasMaxLength(2000);
+                entity.Property(e => e.Duration).IsRequired();
+                entity.Property(e => e.InstructorId).IsRequired();
+
+                entity.HasOne(c => c.Instructor)
+                      .WithMany() 
+                      .HasForeignKey(c => c.InstructorId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
 
             modelBuilder.Entity<Enrollment>()
                 .HasOne(e => e.User)

@@ -13,16 +13,16 @@ namespace OnlineCourses.Web.Controllers
 
         public CoursesController(ICourseService courseSvc) => _courseSvc = courseSvc;
 
-        public async Task<IActionResult> List()//(string searchTerm)
+        public async Task<IActionResult> List()
         {
             var userId = HttpContext.Session.GetInt32(SessionKeys.UserId);
-            var courses = await _courseSvc.GetAllCoursesAsync(userId);//, searchTerm);
+            var courses = await _courseSvc.GetAllCoursesAsync(userId);
 
             var viewModel = new CourseListViewModel
             {
                 Courses = courses,
                 IsAuthenticated = userId.HasValue,
-                //SearchTerm = searchTerm
+
             };
 
             return View(viewModel);

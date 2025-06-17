@@ -1,8 +1,10 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using OnlineCourses.BusinessLogic.Interfaces;
 using OnlineCourses.Web.Filters;
 using OnlineCourses.Model.ViewModels;
 using OnlineCourses.Data;
+using OnlineCourses.Domain.Entities;
 
 namespace OnlineCourses.Web.Controllers
 {
@@ -43,30 +45,57 @@ namespace OnlineCourses.Web.Controllers
             var users = await _userService.GetAllUsersAsync();
             return View(users.Data);
         }
-
+/*
         [HttpGet]
-        public IActionResult CreateCourse()
+        public async Task<IActionResult> CreateCourse()
         {
-            return View();
+            await PopulateInstructorsDropdown();
+            return View(new CreateCourseViewModel());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateCourse(CreateCourseViewModel model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            var result = await _courseService.CreateCourseAsync(model);
-            if (result.Success)
+            try
             {
-                TempData["SuccessMessage"] = "Course created successfully!";
-                return RedirectToAction("ManageCourses");
-            }
+                if (!ModelState.IsValid)
+                {
+                    await PopulateInstructorsDropdown();
+                    return View(model);
+                }
 
-            ModelState.AddModelError("", result.Message);
-            return View(model);
+                var result = await _courseService.CreateCourseAsync(model);
+
+                if (result.Success)
+                {
+                    TempData["SuccessMessage"] = "Course created successfully!";
+                    return RedirectToAction("Courses");
+                }
+
+                ModelState.AddModelError("", result.Message);
+                await PopulateInstructorsDropdown();
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+            //    _logger.LogError(ex, "Error creating course: {Title}", model?.Title);
+                ModelState.AddModelError("", "An unexpected error occurred while creating the course.");
+                await PopulateInstructorsDropdown();
+                return View(model);
+            }
         }
+
+        private async Task PopulateInstructorsDropdown()
+        {
+            var instructors = await _context.Users
+                .Where(u => u.Role == UserRole.Instructor || u.Role == UserRole.Admin || u.Role == UserRole.SuperAdmin)
+                .OrderBy(u => u.FullName)
+                .ToListAsync();
+
+            ViewBag.Instructors = instructors;
+        }
+*/
 
         public async Task<IActionResult> ManageCourses()
         {
